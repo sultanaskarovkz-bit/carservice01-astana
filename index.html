@@ -34,7 +34,7 @@
     --maxw:640px;
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;overflow-x:hidden;max-width:100%}
   body{
     background:var(--void);
     color:var(--ink);
@@ -42,6 +42,7 @@
     line-height:1.55;
     font-size:16px;
     overflow-x:hidden;
+    max-width:100%;
     -webkit-font-smoothing:antialiased;
     padding-bottom:calc(76px + env(safe-area-inset-bottom));
   }
@@ -69,7 +70,10 @@
     background:rgba(8,9,12,.82);
     backdrop-filter:blur(10px);
     border-bottom:1px solid var(--line);
+    overflow:hidden;white-space:nowrap;
   }
+  .statusbar .mid{overflow:hidden;text-overflow:ellipsis;min-width:0;flex:0 1 auto}
+  .statusbar .right{flex:none}
   .statusbar .dot{width:7px;height:7px;border-radius:50%;background:var(--live);
     box-shadow:0 0 8px var(--glow-live);animation:blink 2.4s infinite}
   @keyframes blink{0%,92%,100%{opacity:1}94%{opacity:.25}}
@@ -109,7 +113,8 @@
 
   .brandmark{
     font-family:var(--disp);font-weight:700;line-height:.94;letter-spacing:.01em;
-    font-size:clamp(46px,15vw,86px);
+    font-size:clamp(38px,12.5vw,84px);
+    max-width:100%;overflow-wrap:break-word;
     text-transform:uppercase;
     background:linear-gradient(180deg,#fff, #cdd6df 60%, #8b98a5);
     -webkit-background-clip:text;background-clip:text;color:transparent;
@@ -184,6 +189,8 @@
   .mod.done{border-color:rgba(31,227,154,.32);box-shadow:0 0 0 1px rgba(31,227,154,.06), 0 12px 40px rgba(0,0,0,.35)}
 
   .mod-top{display:flex;align-items:center;gap:13px}
+  .mod-top>div:not(.mod-ico):not(.mod-status){flex:1;min-width:0}
+  .mod-name{overflow-wrap:break-word}
   .mod-ico{
     flex:none;width:46px;height:46px;border-radius:11px;border:1px solid var(--line-bright);
     background:var(--carbon);display:grid;place-items:center;color:var(--mute);
@@ -229,7 +236,7 @@
   .term-body{padding:16px 15px;font-family:var(--mono);font-size:12.5px;line-height:1.85;min-height:210px}
   .term-body .l{white-space:pre-wrap;word-break:break-word}
   .term-body .pfx{color:var(--live)}
-  .term-body .warn{color:var(--amber)}
+  .term-body .wn{color:var(--amber)}
   .term-body .ok{color:var(--live)}
   .term-body .dim{color:var(--faint)}
   .term-body .hl{color:var(--hud)}
@@ -447,7 +454,7 @@
 
 <div class="statusbar">
   <span class="dot"></span><b>CARSERVICE&nbsp;01</b>
-  <span class="sep">//</span><span>СТО · Астана</span>
+  <span class="mid"><span class="sep">//</span> СТО · Астана</span>
   <span class="right" id="openState">● ОТКРЫТО</span>
 </div>
 
@@ -487,7 +494,7 @@
       <div class="warn" data-i="3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2a7 7 0 00-4 12.7V17a2 2 0 002 2h4a2 2 0 002-2v-2.3A7 7 0 0012 2zM9 21h6"/></svg></div>
     </div>
 
-    <h1 class="brandmark">Car&nbsp;Service&nbsp;<span class="zero">01</span></h1>
+    <h1 class="brandmark">Car Service <span class="zero">01</span></h1>
     <div class="subline">Автосервис полного цикла · <b>Астана</b></div>
 
     <p class="hero-lede">Ставим точный диагноз и <b>ремонтируем то, что действительно сломано</b>. От капремонта двигателя до промывки форсунок ультразвуком.</p>
@@ -868,8 +875,8 @@
       {t:'$ подключение OBD-II ...', c:'pfx'},
       {t:'  порт открыт · ЭБУ на связи', c:'dim'},
       {t:'> считываю ошибки', c:'hl'},
-      {t:'  ! P0301 · пропуски зажигания, цилиндр 1', c:'warn'},
-      {t:'  ! C1201 · ошибка контроля ходовой', c:'warn'},
+      {t:'  ! P0301 · пропуски зажигания, цилиндр 1', c:'wn'},
+      {t:'  ! C1201 · ошибка контроля ходовой', c:'wn'},
       {t:'> согласуем работы и цену с вами', c:'hl'},
       {t:'> ремонт ...', c:'hl'},
       {t:'  ✓ форсунки промыты ультразвуком', c:'ok'},

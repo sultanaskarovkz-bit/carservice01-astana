@@ -91,15 +91,12 @@
   .eyebrow::before,.eyebrow::after{content:"";width:26px;height:1px;background:linear-gradient(90deg,transparent,var(--brand))}
   .eyebrow::after{transform:scaleX(-1)}
 
-  .tach{position:relative;width:min(340px,82vw);aspect-ratio:1/.72;margin:0 auto 6px}
-  .tach svg{width:100%;height:100%;overflow:visible}
-  .needle{transform-box:fill-box;transform-origin:50% 92%;transform:rotate(-118deg)}
-  .rpm-readout{
-    position:absolute;left:50%;bottom:2%;transform:translateX(-50%);
-    text-align:center;
-  }
-  .rpm-readout .num{font-family:var(--disp);font-weight:700;font-size:15px;color:var(--hud);letter-spacing:.02em}
-  .rpm-readout .lab{font-family:var(--mono);font-size:9px;letter-spacing:.24em;color:var(--faint)}
+  .tach{position:relative;width:min(340px,84vw);aspect-ratio:300/262;margin:0 auto 6px}
+  .tach svg{width:100%;height:100%;display:block}
+  /* origin в координатах viewBox: точка оси стрелки (150,160) */
+  .needle{transform-box:view-box;transform-origin:150px 160px;transform:rotate(-118deg)}
+  .rpm-num{font-family:var(--disp);font-weight:700;font-size:19px;fill:var(--hud);letter-spacing:.06em}
+  .rpm-lab{font-family:var(--mono);font-size:8.6px;fill:var(--faint);letter-spacing:.2em}
 
   .warnrow{display:flex;justify-content:center;gap:12px;margin:14px 0 22px}
   .warn{
@@ -464,7 +461,8 @@
     <span class="eyebrow">Бортовая диагностика · v01</span>
 
     <div class="tach" aria-hidden="true">
-      <svg viewBox="0 0 300 216">
+      <!-- единая геометрия: центр (150,160), радиус 112, сектор ±118° -->
+      <svg viewBox="0 0 300 262">
         <defs>
           <linearGradient id="arcg" x1="0" y1="0" x2="1" y2="0">
             <stop offset="0" stop-color="#3a4756"/>
@@ -476,15 +474,17 @@
         <!-- ticks -->
         <g id="ticks" stroke-width="2"></g>
         <!-- main arc -->
-        <path d="M 40 190 A 118 118 0 1 1 260 190" fill="none" stroke="url(#arcg)" stroke-width="6" stroke-linecap="round"/>
+        <path d="M 51.11 212.58 A 112 112 0 1 1 248.89 212.58" fill="none" stroke="url(#arcg)" stroke-width="6" stroke-linecap="round"/>
         <!-- needle -->
         <g class="needle" id="needle">
-          <path d="M150 190 L150 44" stroke="#FF2E33" stroke-width="4" stroke-linecap="round"/>
-          <circle cx="150" cy="190" r="12" fill="#151A21" stroke="#FF2E33" stroke-width="3"/>
-          <circle cx="150" cy="190" r="4" fill="#FF2E33"/>
+          <path d="M150 160 L150 62" stroke="#FF2E33" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="150" cy="160" r="11" fill="#151A21" stroke="#FF2E33" stroke-width="3"/>
+          <circle cx="150" cy="160" r="3.5" fill="#FF2E33"/>
         </g>
+        <!-- readout -->
+        <text id="rpmNum" class="rpm-num" x="150" y="240" text-anchor="middle">0000</text>
+        <text class="rpm-lab" x="150" y="256" text-anchor="middle">RPM · СИСТЕМА ГОТОВА</text>
       </svg>
-      <div class="rpm-readout"><div class="num" id="rpmNum">0000</div><div class="lab">RPM · СИСТЕМА ГОТОВА</div></div>
     </div>
 
     <div class="warnrow" aria-hidden="true">
@@ -715,7 +715,8 @@
   /* ----- tachometer ticks ----- */
   (function(){
     const g = document.getElementById('ticks'); if(!g) return;
-    const cx=150, cy=190, R=118, start=-118, end=118, N=9;
+    // та же геометрия, что у дуги: центр (150,160), R=112
+    const cx=150, cy=160, R=112, start=-118, end=118, N=9;
     let out='';
     for(let i=0;i<N;i++){
       const a=(start+(end-start)*i/(N-1))*Math.PI/180;

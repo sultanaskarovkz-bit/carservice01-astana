@@ -221,6 +221,62 @@
   .mod-price{font-family:var(--disp);font-weight:600;color:var(--ink);font-size:14px;margin-top:14px}
   .mod-price span{color:var(--live)}
 
+  /* ---------- work cams (video) ---------- */
+  .cams{
+    display:flex;gap:12px;overflow-x:auto;overflow-y:hidden;
+    scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;
+    margin-inline:calc(var(--gutter) * -1);padding:2px var(--gutter) 10px;
+    scrollbar-width:none;
+  }
+  .cams::-webkit-scrollbar{display:none}
+  .cam{
+    position:relative;flex:0 0 78%;max-width:300px;scroll-snap-align:center;
+    aspect-ratio:9/16;border-radius:16px;overflow:hidden;
+    border:1px solid var(--line);background:#05070A;
+    box-shadow:0 12px 36px rgba(0,0,0,.45);
+    transition:border-color .4s, box-shadow .4s;
+  }
+  .cam.on{border-color:rgba(255,46,51,.4);box-shadow:0 14px 44px rgba(0,0,0,.6)}
+  .cam video{width:100%;height:100%;object-fit:cover;display:block;background:#05070A}
+  /* viewfinder brackets */
+  .cam::before,.cam::after{
+    content:"";position:absolute;width:22px;height:22px;pointer-events:none;z-index:3;
+    border:2px solid rgba(255,255,255,.28);
+  }
+  .cam::before{top:10px;left:10px;border-right:0;border-bottom:0;border-radius:4px 0 0 0}
+  .cam::after{bottom:10px;right:10px;border-left:0;border-top:0;border-radius:0 0 4px 0}
+  .rec{
+    position:absolute;top:12px;right:12px;z-index:4;display:flex;align-items:center;gap:6px;
+    font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--ink);
+    background:rgba(5,7,10,.6);border:1px solid var(--line);border-radius:999px;padding:4px 9px;
+    backdrop-filter:blur(6px);
+  }
+  .rec i{width:6px;height:6px;border-radius:50%;background:var(--faint);display:block}
+  .cam.on .rec i{background:var(--redline);box-shadow:0 0 8px var(--glow-red);animation:recblink 1.3s infinite}
+  @keyframes recblink{0%,60%{opacity:1}80%{opacity:.2}100%{opacity:1}}
+  .cam-cap{
+    position:absolute;left:0;right:0;bottom:0;z-index:4;padding:34px 14px 14px;
+    background:linear-gradient(180deg,transparent,rgba(5,7,10,.9) 55%);
+    pointer-events:none;
+  }
+  .cam-cap .sys{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--brand)}
+  .cam-cap .t{font-family:var(--disp);font-weight:600;font-size:15.5px;line-height:1.2;margin-top:5px;text-transform:uppercase;letter-spacing:.01em}
+  .cam-play{
+    position:absolute;inset:0;z-index:5;display:grid;place-items:center;border:0;cursor:pointer;
+    background:rgba(5,7,10,.32);color:#fff;transition:opacity .35s;
+  }
+  .cam-play span{
+    width:54px;height:54px;border-radius:50%;display:grid;place-items:center;
+    background:rgba(228,24,31,.9);box-shadow:0 6px 24px rgba(228,24,31,.5);
+  }
+  .cam-play svg{width:20px;height:20px;margin-left:3px}
+  .cam.playing .cam-play{opacity:0;pointer-events:none}
+  .cams-hint{
+    font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--faint);
+    display:flex;align-items:center;gap:8px;margin-top:2px;
+  }
+  .cams-hint .bar{flex:1;height:1px;background:linear-gradient(90deg,var(--line-bright),transparent)}
+
   /* ---------- live terminal ---------- */
   .terminal{
     border:1px solid var(--line);border-radius:16px;background:#06080B;
@@ -605,6 +661,64 @@
     </div>
   </section>
 
+  <!-- ================= WORK CAMS ================= -->
+  <section class="wrap">
+    <div class="sechead">
+      <div class="sectag"><span class="idx">CAM//</span> Записи с постов <span class="fill"></span></div>
+      <h2 class="sectitle">Работа вживую</h2>
+      <p class="secsub">Снято у нас в цеху. Без постановки и стоковых картинок.</p>
+    </div>
+
+    <div class="cams" id="cams">
+      <article class="cam" data-cam>
+        <video muted loop playsinline preload="none" poster="video/injector.jpg" data-src="video/injector.mp4"></video>
+        <div class="rec"><i></i>REC</div>
+        <button class="cam-play" type="button" aria-label="Смотреть: промывка форсунок на стенде">
+          <span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        </button>
+        <div class="cam-cap"><div class="sys">SYS-04 · ИНЖЕКТОР</div><div class="t">Промывка форсунок на стенде</div></div>
+      </article>
+
+      <article class="cam" data-cam>
+        <video muted loop playsinline preload="none" poster="video/head.jpg" data-src="video/head.mp4"></video>
+        <div class="rec"><i></i>REC</div>
+        <button class="cam-play" type="button" aria-label="Смотреть: снятие головки блока">
+          <span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        </button>
+        <div class="cam-cap"><div class="sys">SYS-01 · ДВИГАТЕЛЬ</div><div class="t">Снятие головки блока</div></div>
+      </article>
+
+      <article class="cam" data-cam>
+        <video muted loop playsinline preload="none" poster="video/crank.jpg" data-src="video/crank.mp4"></video>
+        <div class="rec"><i></i>REC</div>
+        <button class="cam-play" type="button" aria-label="Смотреть: шейки коленвала после шлифовки">
+          <span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        </button>
+        <div class="cam-cap"><div class="sys">SYS-01 · ДВИГАТЕЛЬ</div><div class="t">Шейки коленвала после шлифовки</div></div>
+      </article>
+
+      <article class="cam" data-cam>
+        <video muted loop playsinline preload="none" poster="video/block.jpg" data-src="video/block.mp4"></video>
+        <div class="rec"><i></i>REC</div>
+        <button class="cam-play" type="button" aria-label="Смотреть: разбор блока цилиндров">
+          <span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        </button>
+        <div class="cam-cap"><div class="sys">SYS-01 · ДВИГАТЕЛЬ</div><div class="t">Разбор блока цилиндров</div></div>
+      </article>
+
+      <article class="cam" data-cam>
+        <video muted loop playsinline preload="none" poster="video/engine.jpg" data-src="video/engine.mp4"></video>
+        <div class="rec"><i></i>REC</div>
+        <button class="cam-play" type="button" aria-label="Смотреть: двигатель в сборе">
+          <span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        </button>
+        <div class="cam-cap"><div class="sys">SYS-01 · ДВИГАТЕЛЬ</div><div class="t">Двигатель в сборе</div></div>
+      </article>
+    </div>
+
+    <div class="cams-hint"><span>ЛИСТАЙТЕ ВБОК</span><span class="bar"></span><span>5 ЗАПИСЕЙ</span></div>
+  </section>
+
   <!-- ================= LIVE TERMINAL ================= -->
   <section class="wrap">
     <div class="sechead">
@@ -868,6 +982,59 @@
   /* ----- run diagnostic button pulse into first module ----- */
   const runBtn=document.getElementById('runBtn');
   if(runBtn){ runBtn.addEventListener('click',()=>{ /* smooth scroll handled by CSS anchor */ }); }
+
+  /* ----- work cams: lazy load, play only what's in view ----- */
+  (function(){
+    const cams=[...document.querySelectorAll('[data-cam]')];
+    if(!cams.length) return;
+
+    function load(cam){
+      const v=cam.querySelector('video');
+      if(!v.src && v.dataset.src){ v.src=v.dataset.src; }
+      return v;
+    }
+    function play(cam){
+      const v=load(cam);
+      const p=v.play();
+      if(p&&p.catch) p.catch(()=>{}); // autoplay may be blocked; poster stays
+      cam.classList.add('playing','on');
+    }
+    function pause(cam){
+      const v=cam.querySelector('video');
+      if(v && !v.paused) v.pause();
+      cam.classList.remove('playing','on');
+    }
+
+    // tap toggles playback
+    cams.forEach(cam=>{
+      cam.querySelector('.cam-play').addEventListener('click',()=>play(cam));
+      cam.querySelector('video').addEventListener('click',()=>{
+        const v=cam.querySelector('video');
+        v.paused ? play(cam) : pause(cam);
+      });
+    });
+
+    if(RM) return; // no autoplay when reduced motion is requested
+
+    // autoplay the card that is most in view, pause the rest
+    const io=new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        const cam=e.target;
+        if(e.isIntersecting && e.intersectionRatio>0.65) play(cam);
+        else pause(cam);
+      });
+    },{threshold:[0,0.65,1], root:document.getElementById('cams')});
+    cams.forEach(c=>io.observe(c));
+
+    // pause everything when the section scrolls off-screen
+    const secIO=new IntersectionObserver((es)=>{
+      es.forEach(e=>{ if(!e.isIntersecting) cams.forEach(pause); });
+    },{threshold:0});
+    secIO.observe(document.getElementById('cams'));
+
+    // save data when the tab is hidden
+    document.addEventListener('visibilitychange',()=>{ if(document.hidden) cams.forEach(pause); });
+  })();
 
   /* ----- live terminal typing ----- */
   (function(){

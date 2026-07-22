@@ -11,3 +11,6 @@ desktop.ini
 # Logs / temp
 *.log
 .cache/
+
+# Temp video source & frames (not shipped)
+preview/

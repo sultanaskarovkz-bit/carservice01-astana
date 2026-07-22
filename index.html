@@ -573,7 +573,7 @@
       <div class="cell"><div class="v live"><span data-count="4.9" data-dec="1">0.0</span></div><div class="k">Рейтинг 2ГИС</div></div>
       <div class="cell"><div class="v"><span data-count="84">0</span></div><div class="k">Оценок</div></div>
       <div class="cell"><div class="v"><span data-count="167">0</span></div><div class="k">Работ в ленте</div></div>
-      <div class="cell"><div class="v"><span data-count="10" data-dec="0">0</span><span class="u">:00</span></div><div class="k">Открытие</div></div>
+      <div class="cell"><div class="v"><span data-count="9" data-dec="0">0</span><span class="u">:00</span></div><div class="k">Открытие</div></div>
     </div>
   </section>
 
@@ -691,10 +691,10 @@
       <article class="cam" data-cam>
         <video muted loop playsinline preload="none" poster="video/crank.jpg" data-src="video/crank.mp4"></video>
         <div class="rec"><i></i>REC</div>
-        <button class="cam-play" type="button" aria-label="Смотреть: шейки коленвала после шлифовки">
+        <button class="cam-play" type="button" aria-label="Смотреть: разбор двигателя, задиры на коленвале">
           <span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
         </button>
-        <div class="cam-cap"><div class="sys">SYS-01 · ДВИГАТЕЛЬ</div><div class="t">Шейки коленвала после шлифовки</div></div>
+        <div class="cam-cap"><div class="sys">SYS-01 · ДВИГАТЕЛЬ</div><div class="t">Разбор двигателя: задиры на коленвале</div></div>
       </article>
 
       <article class="cam" data-cam>
@@ -774,7 +774,7 @@
       </div>
       <div class="inforow open">
         <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></div>
-        <div><div class="k">Режим работы</div><div class="val">Ежедневно · с 10:00 до 20:00</div></div>
+        <div><div class="k">Режим работы</div><div class="val">Ежедневно · с 9:00 до 20:00</div></div>
       </div>
       <div class="inforow">
         <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5c0 8.3 6.7 15 15 15v-3.2a1.4 1.4 0 00-1.1-1.4l-3-.6a1.4 1.4 0 00-1.4.6l-.9 1.3a11.5 11.5 0 01-5-5l1.3-.9a1.4 1.4 0 00.6-1.4l-.6-3A1.4 1.4 0 007.2 4H4z"/></svg></div>
@@ -817,10 +817,10 @@
 (function(){
   const RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ----- open/closed state (10:00-20:00) ----- */
+  /* ----- open/closed state (9:00-20:00) ----- */
   (function(){
     const h = new Date().getHours();
-    const open = h>=10 && h<20;
+    const open = h>=9 && h<20;
     const el = document.getElementById('openState');
     if(el){ el.textContent = open ? '● ОТКРЫТО' : '● ЗАКРЫТО';
       el.style.color = open ? 'var(--live)' : 'var(--faint)'; }

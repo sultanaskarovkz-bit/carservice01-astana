@@ -1,0 +1,57 @@
+# ==========================================================================
+#  CarService 01 — конфигурация Apache (общий хостинг).
+#  Сжатие, кэширование, HTTPS, правильные MIME-типы.
+#  Если хостинг на Nginx — эти правила не работают, см. SETUP.md.
+# ==========================================================================
+
+# ---- Кодировка ----
+AddDefaultCharset utf-8
+
+# ---- HTTPS + без www (раскомментируйте после подключения SSL) ----
+# <IfModule mod_rewrite.c>
+#   RewriteEngine On
+#   RewriteCond %{HTTPS} off [OR]
+#   RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+#   RewriteRule ^ https://carservice01.kz%{REQUEST_URI} [L,R=301]
+# </IfModule>
+
+# ---- Gzip-сжатие ----
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml application/manifest+json
+</IfModule>
+
+# ---- Кэширование ----
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html                 "access plus 1 hour"
+  ExpiresByType text/css                  "access plus 1 year"
+  ExpiresByType application/javascript    "access plus 1 year"
+  ExpiresByType image/svg+xml             "access plus 1 year"
+  ExpiresByType image/png                 "access plus 1 year"
+  ExpiresByType image/jpeg                "access plus 1 year"
+  ExpiresByType image/x-icon              "access plus 1 year"
+  ExpiresByType video/mp4                 "access plus 1 year"
+  ExpiresByType font/woff2                "access plus 1 year"
+  ExpiresByType application/manifest+json "access plus 1 week"
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(css|js|svg|png|jpe?g|ico|mp4|woff2)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "public, max-age=3600, must-revalidate"
+  </FilesMatch>
+  # Безопасность
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# ---- MIME-типы ----
+<IfModule mod_mime.c>
+  AddType image/svg+xml            .svg
+  AddType application/manifest+json .webmanifest
+  AddType video/mp4                .mp4
+</IfModule>

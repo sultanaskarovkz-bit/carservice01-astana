@@ -14,3 +14,7 @@ desktop.ini
 
 # Temp video source & frames (not shipped)
 preview/
+
+# Build artifacts
+dist/
+carservice01-site.zip

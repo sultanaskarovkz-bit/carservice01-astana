@@ -17,7 +17,7 @@
 
 - Адрес: ул. Аксуат, 8а, Коктал-2, Сарыарка р-н, Астана
 - Режим работы: ежедневно с 9:00 до 20:00
-- Телефон / WhatsApp: 8 707 696 9305 (в ссылках tel:/wa.me — международный формат +7 707 696 9305)
+- Телефон / WhatsApp: +7 707 696 9305
 - Instagram: [@carservice01astana](https://instagram.com/carservice01astana)
 - Рейтинг 2ГИС: 4.9 (84 оценки)
 
@@ -61,6 +61,30 @@ ffmpeg -ss 0.5 -i out.mp4 -frames:v 1 -q:v 5 out.jpg
 - Полная поддержка `prefers-reduced-motion`
 - Адаптив: mobile-first, ширина контента до 640px
 
+## Форма заявки
+
+Секция «Записаться на диагностику» собирает имя, телефон, авто, услугу и описание проблемы, формирует сообщение и открывает WhatsApp (`wa.me`) с готовым текстом. Бэкенд не нужен — работает на любом статическом хостинге.
+
+## SEO и реклама
+
+- Полный набор мета-тегов, Open Graph/Twitter, микроразметка Schema.org `AutoRepair`, `sitemap.xml`, `robots.txt`, фавиконы.
+- Готовые события для аналитики и целей: `cta_diagnostika`, `click_phone`, `click_whatsapp`, `lead_submit`, `section_view` и др.
+- Секции размечены якорями (`#uslugi`, `#video`, `#otzyvy`, `#zayavka`, `#kontakty`) для посадочных ссылок в рекламе.
+- Подробности настройки — в **`SETUP.md`**.
+
+## Структура
+
+```
+index.html            # весь сайт
+favicon.ico
+site.webmanifest
+robots.txt · sitemap.xml
+.htaccess             # gzip, кэш, HTTPS (Apache)
+assets/               # иконки, og-image, генератор gen_assets.py
+video/                # 5 роликов + постеры
+SETUP.md              # деплой + настройка SEO/рекламы
+```
+
 ## Деплой
 
-Статический сайт — разворачивается на любом хостинге: Vercel, Netlify, GitHub Pages. Достаточно залить `index.html`.
+Статический сайт — разворачивается на любом хостинге. Для домена **carservice01.kz** пошаговая инструкция в `SETUP.md`. Готовый архив для загрузки на хостинг — `carservice01-site.zip` (распаковать в корень домена). Также подходит Vercel, Netlify, GitHub Pages.

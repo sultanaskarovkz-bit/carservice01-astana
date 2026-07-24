@@ -99,33 +99,50 @@
 </script>
 
 <!-- ================================================================
-     ANALYTICS / КОНТЕКСТНАЯ РЕКЛАМА — вставьте свои ID и раскомментируйте.
-     Событийные цели уже настроены в коде (track()):
-       cta_diagnostika · click_phone · click_whatsapp · click_instagram
-       · click_map · lead_submit · section_view
-     ----------------------------------------------------------------
-     1) Google Analytics 4 / Google Ads (замените G-XXXXXXX):
-     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
-     <script>
-       window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
-       gtag('js',new Date());gtag('config','G-XXXXXXX');
-     </script>
-
-     2) Яндекс.Метрика (замените 00000000 и раскомментируйте строку CS_YM_ID ниже):
-     <script>
-       (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-       m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,
-       k.src=r,a.parentNode.insertBefore(k,a)})(window,document,'script',
-       'https://mc.yandex.ru/metrika/tag.js','ym');
-       ym(00000000,'init',{clickmap:true,trackLinks:true,accurateTrackBounce:true});
-     </script>
-
-     3) Google Tag Manager — если используете GTM, вставьте его снипет сюда и в <body>.
+     ANALYTICS / КОНТЕКСТНАЯ РЕКЛАМА
+     События сайта (track()): cta_diagnostika · click_phone ·
+     click_whatsapp · click_instagram · click_map · lead_submit · section_view
 ================================================================= -->
+
+<!-- Google tag (gtag.js) — Google Ads -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18346103643"></script>
 <script>
-  /* Укажите номер счётчика Яндекс.Метрики, чтобы цели уходили в неё: */
-  window.CS_YM_ID = null; /* напр. 00000000 */
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-18346103643');
 </script>
+
+<script>
+  /* ---------------------------------------------------------------
+     НАСТРОЙКА КОНВЕРСИЙ GOOGLE ADS
+     Google Ads засчитывает конверсию по паре «ID / ярлык».
+     1. В Google Ads: Цели → Конверсии → Создать действие-конверсию
+        (тип «Веб-сайт», способ «Вручную с помощью кода»).
+     2. Скопируйте ярлык из строки send_to: 'AW-18346103643/ЯРЛЫК'
+     3. Вставьте этот ярлык ниже в кавычки. Пустые строки не отправляются.
+  --------------------------------------------------------------- */
+  window.CS_ADS_ID = 'AW-18346103643';
+  window.CS_ADS_LABELS = {
+    lead_submit:    '',  /* заявка с формы — главная конверсия */
+    click_phone:    '',  /* клик по номеру телефона */
+    click_whatsapp: ''   /* клик по WhatsApp */
+  };
+
+  /* Яндекс.Метрика (если подключите — впишите номер счётчика и
+     раскомментируйте её снипет ниже) */
+  window.CS_YM_ID = null;
+</script>
+
+<!-- Яндекс.Метрика — раскомментируйте и подставьте номер счётчика
+<script>
+  (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+  m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,
+  k.src=r,a.parentNode.insertBefore(k,a)})(window,document,'script',
+  'https://mc.yandex.ru/metrika/tag.js','ym');
+  ym(00000000,'init',{clickmap:true,trackLinks:true,accurateTrackBounce:true});
+</script>
+-->
 
 <style>
   :root{
@@ -1296,8 +1313,18 @@
   ================================================================== */
   window.track = function(name, params){
     params = params || {};
+    // 1. dataLayer (GTM)
     try{ (window.dataLayer=window.dataLayer||[]).push(Object.assign({event:name}, params)); }catch(e){}
+    // 2. обычное событие gtag (GA4 / Google Ads)
     try{ if(typeof window.gtag==='function') window.gtag('event', name, params); }catch(e){}
+    // 3. конверсия Google Ads — только если для события задан ярлык
+    try{
+      var lbl = window.CS_ADS_LABELS && window.CS_ADS_LABELS[name];
+      if(typeof window.gtag==='function' && window.CS_ADS_ID && lbl){
+        window.gtag('event','conversion',{send_to: window.CS_ADS_ID+'/'+lbl});
+      }
+    }catch(e){}
+    // 4. цель Яндекс.Метрики
     try{ if(typeof window.ym==='function' && window.CS_YM_ID) window.ym(window.CS_YM_ID,'reachGoal', name, params); }catch(e){}
   };
 
